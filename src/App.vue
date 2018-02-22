@@ -1,11 +1,41 @@
 <template>
-  <div>
-      <button>Click!</button>
-  </div>
+  <v-app>
+    <toolbar
+      :login="login"
+      :logout="logout"
+      :profile="profile"
+      :loggedIn="loggedIn"
+    />
+    <v-content>
+      <v-container fluid>
+        <router-view></router-view>
+      </v-container>
+    </v-content>
+    <v-footer app></v-footer>
+  </v-app>
 </template>
 
 <script>
+  import { mapActions } from 'vuex';
+  import Toolbar from '@/components/Toolbar';
+
   export default {
-    name: 'app'
-  }
+    name: 'app',
+
+    components: { Toolbar },
+
+    computed: {
+      ...mapGetters('user', {
+        profile: 'profile',
+        loggedIn: 'loggedIn'
+      })
+    },
+
+    methods: {
+      ...mapActions('user', {
+        login: 'login',
+        logout: 'logout'
+      })
+    }
+  };
 </script>
